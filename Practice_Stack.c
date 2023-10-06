@@ -13,21 +13,47 @@ typedef struct {
     Data box[MAX];
     int available_box;
 } Vheap;
-
+// Initialize the Vheap container with empty values and set the available box index.
 void initializeVheap(Vheap *container);
+// Display the contents of the Vheap container, including storage, next_storage, and available_box.
 void displayVheap(Vheap container);
+// Push (insert) an element 'elem' into the Vheap container with the specified 'type'.
+// The 'type' parameter is updated to point to the newly added element.
 void push(Vheap *container, char elem, Group *type);
+// Allocate space for a new element in the Vheap container and return the index of the allocated space.
+// It also updates the 'available_box' index to maintain the available space.
 int allocateSpace(Vheap *container);
+// Peek at the element in the Vheap container that corresponds to the given 'type'.
+// Returns the character stored at that location.
 char peek(Vheap container, Group type);
+// Pop (remove) the element from the Vheap container associated with the specified 'type'.
+// Returns the character stored at that location.
+// It also updates the 'type' parameter to point to the next element.
 char pop(Vheap *container, Group *type);
+//Check if the stack is empty. This operation can help you determine whether there are any elements in the stack.
 bool isEmpty(Vheap container);
+//Check if the stack is full. This is important in cases where the stack has a maximum capacity, and you want to ensure you don't exceed it.
 bool isFull(Vheap container);
+//Get the current number of elements in the stack. This operation provides the size of the stack without modifying its contents.
 int size(Vheap container);
-int search(Vheap *container,char elem ,Group *type);
+//Search for a specific element within the stack and return its position/index. This operation would involve popping elements one by one until the target is found or the stack is empty.
+int search(Vheap container,char elem ,Group type);
+//Reverse the order of elements in the stack. This operation can be achieved by popping all elements from the original stack and pushing them onto a new stack.
 Vheap reverse(Vheap *container, Group *type);
-void Sort(Vheap *container, Group type);
+//Sort the elements in the stack if they are comparable. You can pop all elements into an array, perform sorting on the array, and then push them back onto the stack.
+void sort(Vheap *container, Group type);
+//Get the highest (maximum) character value from the elements in the Vheap container associated with the specified 'type'.
 char getHigh(Vheap container, Group type);
+// Get the lowest (minimum) character value from the elements in the Vheap container associated with the specified 'type'.
 char getLowest(Vheap container, Group type);
+//Combine two stacks into one. This is especially useful when working with multiple stacks and you want to consolidate their contents.
+Vheap merge();
+//Implement an iterator or enumerator to iterate through all elements in the stack. This can be helpful when you need to process or display all elements.
+void iterator();
+//Extend the Peek operation to allow you to peek at the nth element from the top without removing it.
+char peekN();
+//Push a collection of elements onto the stack in one operation, which can be useful when you have multiple elements to add at once.
+void pushAll();
 int main() {
     Vheap container;
     Group A = -1;
@@ -40,7 +66,7 @@ int main() {
     push(&container, 'Z', &A);
     push(&container, 'U', &A);
     
-    //printf("INDEX FOUND AT: %d\n",search(&container, 'D', &A));
+    printf("INDEX FOUND AT: %d\n",search(container, 'K', A));
 
     displayVheap(container);
     printf("Group A: %d\n", A);
@@ -51,7 +77,7 @@ int main() {
     printf("----------------------------------------\n");
     container = reverse(&container, &A);
     
-    Sort(&container, A);
+    sort(&container, A);
 
     displayVheap(container);
     printf("Group A: %d\n", A);
@@ -117,12 +143,15 @@ bool isFull(Vheap container){
 int size(Vheap container) {
     return (MAX - 1) - container.available_box;
 }
-int search(Vheap *container, char elem, Group *type) {
-    int temp = *type;
-    for (; temp != -1 && peek(*container, temp) != elem; temp = *type) {
-        pop(container, type);
+int search(Vheap container, char elem, Group type) {
+    int temp = type;
+    Vheap copyContainer = container; // Create a copy of the container
+    
+    for (; temp != -1 && peek(copyContainer, temp) != elem; temp = type) {
+        pop(&copyContainer, &type); // Pop from the copy, not the original container
     }
-    return *type;
+    
+    return type;
 }
 Vheap reverse(Vheap *container, Group *type){
     Vheap temporaryContainer;
@@ -139,7 +168,7 @@ Vheap reverse(Vheap *container, Group *type){
     *type = tempII;
     return temporaryContainer;
 }
-void Sort(Vheap *container, Group type){
+void sort(Vheap *container, Group type){
     
     Vheap containerII;
     initializeVheap(&containerII);
@@ -161,10 +190,6 @@ void Sort(Vheap *container, Group type){
         }
         type = container->box[type].next_storage;
     }
-    
-    
-   
-    
 }
 char getHigh(Vheap container, Group type) {
     if (type == -1) {
@@ -185,8 +210,6 @@ char getHigh(Vheap container, Group type) {
 
     return highest;
 }
-
-
 char getLowest(Vheap container, Group type) {
     if (type == -1) {
         // Handle empty container
@@ -206,3 +229,13 @@ char getLowest(Vheap container, Group type) {
 
     return lowest;
 }
+
+/*
+    Some things to note:
+
+    - sort is not completed
+    - other functions have not yet implemented
+    
+    As of October 06 2023, 4:06pm
+    Cecil Quibranza
+*/
