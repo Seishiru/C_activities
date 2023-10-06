@@ -19,12 +19,13 @@ void displayVheap(Vheap container);
 void push(Vheap *container, char elem, Group *type);
 int allocateSpace(Vheap *container);
 char peek(Vheap container, Group type);
-void pop(Vheap *container, Group *type);
+char pop(Vheap *container, Group *type);
 bool isEmpty(Vheap container);
 bool isFull(Vheap container);
 int size(Vheap container);
 int search(Vheap *container,char elem ,Group *type);
 Vheap reverse(Vheap *container, Group *type);
+void Sort(Vheap *container, Group *type);
 
 int main() {
     Vheap container;
@@ -32,11 +33,11 @@ int main() {
     initializeVheap(&container);
     // displayVheap(container);
 
-    push(&container, 'A', &A);
-    push(&container, 'B', &A);
     push(&container, 'C', &A);
-    push(&container, 'D', &A);
-    push(&container, 'E', &A);
+    push(&container, 'A', &A);
+    push(&container, 'K', &A);
+    push(&container, 'Z', &A);
+    push(&container, 'U', &A);
     
     //printf("INDEX FOUND AT: %d\n",search(&container, 'D', &A));
 
@@ -49,6 +50,8 @@ int main() {
     printf("----------------------------------------\n");
     container = reverse(&container, &A);
     
+    Sort(&container, &A);
+
     displayVheap(container);
     printf("Group A: %d\n", A);
     printf("PEEK: %c\n", peek(container, A));
@@ -94,13 +97,15 @@ char peek(Vheap container, Group type) {
         return container.box[type].storage;
     }
 }
-void pop(Vheap *container, Group *type){
+char pop(Vheap *container, Group *type){
     int temp = *type;
+    char element = container->box[*type].storage;
     if (temp != -1){
         container->box[temp].storage = '\0';
         *type = container->box[temp].next_storage;
         container->available_box = temp;
-    }  
+    }
+    return element;
 }
 bool isEmpty(Vheap container) {
     return (container.available_box == MAX - 1);
@@ -133,5 +138,17 @@ Vheap reverse(Vheap *container, Group *type){
     *type = tempII;
     return temporaryContainer;
 }
+void Sort(Vheap *container, Group *type){
+    // PEEK should be A
+    /*
+        A
+        C
+        K
+        U
+        Z
+    */
+    Vheap auxContainer;
+    initializeVheap(&auxContainer);
+    // im thinking i should create another container
 
-
+}
