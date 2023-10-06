@@ -25,8 +25,9 @@ bool isFull(Vheap container);
 int size(Vheap container);
 int search(Vheap *container,char elem ,Group *type);
 Vheap reverse(Vheap *container, Group *type);
-void Sort(Vheap *container, Group *type);
-
+void Sort(Vheap *container, Group type);
+char getHigh(Vheap container, Group type);
+char getLowest(Vheap container, Group type);
 int main() {
     Vheap container;
     Group A = -1;
@@ -50,7 +51,7 @@ int main() {
     printf("----------------------------------------\n");
     container = reverse(&container, &A);
     
-    Sort(&container, &A);
+    Sort(&container, A);
 
     displayVheap(container);
     printf("Group A: %d\n", A);
@@ -138,17 +139,70 @@ Vheap reverse(Vheap *container, Group *type){
     *type = tempII;
     return temporaryContainer;
 }
-void Sort(Vheap *container, Group *type){
-    // PEEK should be A
-    /*
-        A
-        C
-        K
-        U
-        Z
-    */
-    Vheap auxContainer;
-    initializeVheap(&auxContainer);
-    // im thinking i should create another container
+void Sort(Vheap *container, Group type){
+    
+    Vheap containerII;
+    initializeVheap(&containerII);
+    Group typeII = -1;
 
+    Vheap containerIII;
+    initializeVheap(&containerIII);
+    Group typeIII = -1;
+    // im thinking i should create another container
+    char temp = getHigh(*container, type);
+    while(type != -1){
+        typeII = allocateSpace(&containerII);
+        containerII.box[typeII].storage = container->box[type].storage;
+        containerII.box[typeII].next_storage = container->box[typeII].next_storage;
+        if(container->box[type].storage == temp){
+            typeIII = allocateSpace(&containerIII);
+            containerIII.box[typeIII].storage = container->box[type].storage;
+            containerIII.box[typeIII].next_storage = container->box[typeIII].next_storage;
+        }
+        type = container->box[type].next_storage;
+    }
+    
+    
+   
+    
+}
+char getHigh(Vheap container, Group type) {
+    if (type == -1) {
+        // Handle empty container
+        return '\0';
+    }
+
+    char highest = container.box[type].storage;
+    type = container.box[type].next_storage;
+
+    while (type != -1) {
+        if (container.box[type].storage > highest) {
+            highest = container.box[type].storage;
+        }
+        pop(&container, &type);
+        type = container.box[type].next_storage;
+    }
+
+    return highest;
+}
+
+
+char getLowest(Vheap container, Group type) {
+    if (type == -1) {
+        // Handle empty container
+        return '\0';
+    }
+
+    char lowest = container.box[type].storage;
+    type = container.box[type].next_storage;
+
+    while (type != -1) {
+        if (container.box[type].storage < lowest) {
+            lowest = container.box[type].storage;
+        }
+        pop(&container, &type);
+        type = container.box[type].next_storage;
+    }
+
+    return lowest;
 }
