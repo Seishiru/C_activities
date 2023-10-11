@@ -29,33 +29,24 @@ int main() {
     insert(&D, '7');
     insert(&D, 'A');
     insert(&D, 'K');
+    insert(&D, '_');
     display(D);
     puts("-----------------------");
 
-    delete(&D, '#');
-    delete(&D, '-');
     delete(&D, '7');
-    delete(&D, 'A');
     delete(&D, 'K');
+   
+    insert(&D, '=');
+
+    // insert(&D, ')');
+    // insert(&D, '3');
+    // insert(&D, 'G');
+    // insert(&D, 'Q');
 
     puts("-----------------------");
-    insert(&D, '#');
-    insert(&D, '-');
-    insert(&D, '7');
-    insert(&D, 'A');
-    insert(&D, 'K');
-    insert(&D, '_');
+    
 
-    delete(&D, '7');
-    delete(&D, 'K');
-    insert(&D, 'm');
-    insert(&D, '+');
-    insert(&D, '=');
-    insert(&D, '(');
-    insert(&D, ')');
-    insert(&D, '3');
-    insert(&D, 'G');
-    insert(&D, 'Q');
+    
 
     display(D);
     return 0;
