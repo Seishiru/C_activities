@@ -120,18 +120,48 @@ AdjList populateadjList() {
                 al.List[index] = temp;
             }
         }
+        al.edgeCount++;
     }
     return al;
 }
+
+AdjMatrix populateadjMatrix() {
+    edge data[] = {{'A', 'B', 3}, {'A', 'D', 7}, {'A', 'E', 4},
+                   {'B', 'C', 9}, {'B', 'D', 8},
+                   {'C', 'D', 1},
+                   {'D', 'E', 2}, {'D', 'F', 5}};
+    
+    // Apply the insert
+    AdjMatrix am;
+    initializeAdjMatrix(&am);
+    int index1, index2, x, y;
+    for(x = 0; x < sizeof(data) / sizeof(data[0]); x++) {
+        for(y = 0; y < 2; y++) {
+            if (y != 1) {
+                index1 = data[x].head - 'A';
+                index2 = data[x].tail - 'A';
+            } else {
+                index1 = data[x].tail - 'A';
+                index2 = data[x].head - 'A';
+            }
+            am.matrix[index1][index2] = data[x].weight;
+        }
+    }
+
+    return am;
+}
+
+
 int main() {
     AdjList al;
     AdjMatrix am;
 
     // initializeAdjList(&al);
-    initializeAdjMatrix(&am);
+    // initializeAdjMatrix(&am);
 
     al = populateadjList();
-
+    am = populateadjMatrix();
+    
     displaydjList(al);
     displayadjMatrix(am);
 }
