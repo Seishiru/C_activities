@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #define MAX_VERTEX 6
 #define SENTINEL __INT_MAX__
 //head -> tail directed
@@ -150,6 +151,58 @@ AdjMatrix populateadjMatrix() {
 
     return am;
 }
+/*  Disregard the weight */
+void BFSAdjList(AdjList al, vertex rootNode) {
+
+}
+/*  Disregard the weight */
+void DFSAdjList(AdjList al, vertex rootNode) {
+    bool *visited;
+    visited = calloc(al.capacity, sizeof(bool));
+    int x, visit;
+    printf("\n\nVisiting ::");
+    for(x = 0, visit = rootNode - 'A'; x < al.capacity; x++) {
+        if(visited[visit] != true) {
+            printf("%-2c", visit + 'A');
+            visited[visit] = true;
+
+        }
+    }
+    
+}
+
+void BFSAdjMatrix(AdjMatrix am, vertex rootNode) {
+
+}
+/*  Disregard the weight */
+void DFSAdjMatrix(AdjMatrix am, vertex rootNode) {
+   
+    
+}
+
+int primsAdjList(AdjList al) {
+
+}
+
+int kruskalsAdjList(AdjList al) {
+
+}
+
+int primsAdjMatrix(AdjMatrix am) {
+
+}
+
+int kruskalsAdjMatrix(AdjMatrix am) {
+
+}
+
+void floydWarshalAdjList(AdjList al) {
+
+}
+
+void floydWarshalAdjMatrix(AdjMatrix am) {
+    
+}
 
 
 int main() {
@@ -161,7 +214,7 @@ int main() {
 
     al = populateadjList();
     am = populateadjMatrix();
-    
+
     displaydjList(al);
     displayadjMatrix(am);
 }
